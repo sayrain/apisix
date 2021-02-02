@@ -81,7 +81,7 @@ local remote_addr_def = {
 local label_value_def = {
     description = "value of label",
     type = "string",
-    pattern = [[^[a-zA-Z0-9-_.]+$]],
+    pattern = [[^\S+$]],
     maxLength = 64,
     minLength = 1
 }
@@ -272,7 +272,6 @@ local nodes_schema = {
                     minimum = 0,
                 }
             },
-            minProperties = 1,
         },
         {
             type = "array",
@@ -315,16 +314,16 @@ local upstream_schema = {
         timeout = {
             type = "object",
             properties = {
-                connect = {type = "number", minimum = 0},
-                send = {type = "number", minimum = 0},
-                read = {type = "number", minimum = 0},
+                connect = {type = "number", exclusiveMinimum = 0},
+                send = {type = "number", exclusiveMinimum = 0},
+                read = {type = "number", exclusiveMinimum = 0},
             },
             required = {"connect", "send", "read"},
         },
         type = {
             description = "algorithms of load balancing",
             type = "string",
-            enum = {"chash", "roundrobin", "ewma"}
+            enum = {"chash", "roundrobin", "ewma", "least_conn"}
         },
         checks = health_checker,
         hash_on = {
@@ -335,11 +334,16 @@ local upstream_schema = {
               "header",
               "cookie",
               "consumer",
+              "vars_combinations",
             },
         },
         key = {
             description = "the key of chash for dynamic load balancing",
             type = "string",
+        },
+        scheme = {
+            default = "http",
+            enum = {"grpc", "grpcs", "http", "https"}
         },
         labels = {
             description = "key/value pairs to specify attributes",
@@ -370,9 +374,9 @@ local upstream_schema = {
             type        = "boolean",
         },
     },
-    anyOf = {
+    oneOf = {
         {required = {"type", "nodes"}},
-        {required = {"type", "service_name"}},
+        {required = {"type", "service_name", "discovery_type"}},
     },
     additionalProperties = false,
 }
@@ -392,6 +396,11 @@ _M.upstream_hash_vars_schema = {
 _M.upstream_hash_header_schema = {
     type = "string",
     pattern = [[^[a-zA-Z0-9-_]+$]]
+}
+
+-- validates string only
+_M.upstream_hash_vars_combinations_schema = {
+    type = "string"
 }
 
 
@@ -688,7 +697,9 @@ _M.global_rule = {
     type = "object",
     properties = {
         id = id_schema,
-        plugins = plugins_schema
+        plugins = plugins_schema,
+        create_time = timestamp_def,
+        update_time = timestamp_def
     },
     required = {"plugins"},
     additionalProperties = false,
@@ -738,8 +749,11 @@ _M.plugins = {
 _M.id_schema = id_schema
 
 
-_M.plugin_disable_schema = {
-    disable = {type = "boolean"}
+_M.plugin_injected_schema = {
+    ["$comment"] = "this is a mark for our injected plugin schema",
+    disable = {
+        type = "boolean",
+    }
 }
 
 
