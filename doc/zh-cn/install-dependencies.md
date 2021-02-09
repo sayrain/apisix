@@ -52,10 +52,10 @@ sudo yum install yum-utils
 sudo yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo
 
 # 安装 OpenResty 和 编译工具
-sudo yum install -y openresty curl git gcc openresty-openssl-devel
+sudo yum install -y openresty curl git gcc openresty-openssl-devel unzip
 
 # 安装 LuaRocks
-curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | sudo bash -
+curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 
 # 开启 etcd server
 nohup etcd &
@@ -78,7 +78,7 @@ tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && \
 sudo yum install -y openresty curl git gcc openresty-openssl-devel
 
 # 安装 LuaRocks
-curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | sudo bash -
+curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 
 # 开启 etcd server
 nohup etcd &
@@ -104,7 +104,7 @@ tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && \
 sudo apt-get install -y git openresty curl openresty-openssl-dev
 
 # 安装 LuaRocks
-curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | sudo bash -
+curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 
 # 开启 etcd server
 nohup etcd &
@@ -135,7 +135,7 @@ tar -xvf etcd-v3.4.13-linux-amd64.tar.gz && \
 sudo apt-get install -y git openresty curl make openresty-openssl-dev
 
 # 安装 LuaRocks
-curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | sudo bash -
+curl https://raw.githubusercontent.com/apache/apisix/master/utils/linux-install-luarocks.sh -sL | bash -
 
 # 开启 etcd server
 nohup etcd &
