@@ -201,7 +201,7 @@ install: default
 
 	$(INSTALL) README.md $(INST_CONFDIR)/README.md
 	$(INSTALL) bin/apisix $(INST_BINDIR)/apisix
-	
+
 	$(INSTALL) -d $(INST_LUADIR)/apisix/plugins/slslog
 	$(INSTALL) apisix/plugins/slslog/*.lua $(INST_LUADIR)/apisix/plugins/slslog/
 
@@ -220,26 +220,7 @@ ifeq ("$(wildcard .travis/openwhisk-utilities/scancode/scanCode.py)", "")
 endif
 	.travis/openwhisk-utilities/scancode/scanCode.py --config .travis/ASF-Release.cfg ./
 
-release-src:
-	tar -zcvf $(RELEASE_SRC).tgz \
-	--exclude .github \
-	--exclude .git \
-	--exclude .gitattributes \
-	--exclude .idea \
-	--exclude .travis \
-	--exclude .gitignore \
-	--exclude .DS_Store \
-	--exclude benchmark \
-	--exclude doc \
-	--exclude kubernetes \
-	--exclude logos \
-	--exclude deps \
-	--exclude logs \
-	--exclude t \
-	--exclude utils \
-	--exclude release \
-	--exclude $(RELEASE_SRC).tgz \
-	.
+release-src: compress-tar
 
 	gpg --batch --yes --armor --detach-sig $(RELEASE_SRC).tgz
 	shasum -a 512 $(RELEASE_SRC).tgz > $(RELEASE_SRC).tgz.sha512
@@ -248,3 +229,15 @@ release-src:
 	mv $(RELEASE_SRC).tgz release/$(RELEASE_SRC).tgz
 	mv $(RELEASE_SRC).tgz.asc release/$(RELEASE_SRC).tgz.asc
 	mv $(RELEASE_SRC).tgz.sha512 release/$(RELEASE_SRC).tgz.sha512
+
+compress-tar:
+	tar -zcvf $(RELEASE_SRC).tgz \
+	./apisix \
+	./bin \
+	./conf \
+	./doc \
+	./rockspec \
+	LICENSE \
+	Makefile \
+	NOTICE \
+	*.md

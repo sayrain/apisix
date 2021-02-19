@@ -133,7 +133,7 @@ A/B testing, canary release, blue-green deployment, limit rate, defense against 
   - [Helm charts](https://github.com/apache/apisix-helm-chart)
 
 - **Highly scalable**
-  - [Custom plugins](doc/plugin-develop.md): Allows hooking of common phases, such as `rewrite`, `access`, `header filer`, `body filter` and `log`, also allows to hook the `balancer` stage.
+  - [Custom plugins](doc/plugin-develop.md): Allows hooking of common phases, such as `rewrite`, `access`, `header filter`, `body filter` and `log`, also allows to hook the `balancer` stage.
   - Custom load balancing algorithms: You can use custom load balancing algorithms during the `balancer` phase.
   - Custom routing: Support users to implement routing algorithms themselves.
 
@@ -152,9 +152,9 @@ There are several ways to install the Apache Release version of APISIX:
    - Download the latest source code release package:
 
      ```shell
-     $ mkdir apisix-2.2
-     $ wget https://downloads.apache.org/apisix/2.2/apache-apisix-2.2-src.tgz
-     $ tar zxvf apache-apisix-2.2-src.tgz -C apisix-2.2
+     $ mkdir apisix-2.3
+     $ wget https://downloads.apache.org/apisix/2.3/apache-apisix-2.3-src.tgz
+     $ tar zxvf apache-apisix-2.3-src.tgz -C apisix-2.3
      ```
 
    - Install the dependencies：
@@ -186,11 +186,11 @@ There are several ways to install the Apache Release version of APISIX:
    The Docker image does not include `etcd`, you can refer to [docker compose example](https://github.com/apache/apisix-docker/tree/master/example) to start a test cluster.
 
 3. RPM package（only for CentOS 7）
-   - Installation runtime dependencies: OpenResty and etcd, refer to [install dependencies documentation](doc/install-dependencies.md#centos-7)
+   - Installation runtime dependencies: OpenResty, etcd and OpenSSL develop library, refer to [install dependencies documentation](doc/install-dependencies.md#centos-7)
    - install APISIX：
 
    ```shell
-   $ sudo yum install -y https://github.com/apache/apisix/releases/download/2.2/apisix-2.2-0.x86_64.rpm
+   $ sudo yum install -y https://github.com/apache/apisix/releases/download/2.3/apisix-2.3-0.x86_64.rpm
    ```
 
    - check version of APISIX:
@@ -227,7 +227,7 @@ There are several ways to install the Apache Release version of APISIX:
    $ sudo docker build -f alpine-dev/Dockerfile .
    ```
 
-2. Getting start
+2. Getting started
 
    The getting started guide is a great way to learn the basics of APISIX, just follow the steps in [Getting Started](doc/getting-started.md).
 

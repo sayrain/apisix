@@ -106,6 +106,16 @@ script() {
         -crt ./t/certs/apisix.crt -key ./t/certs/apisix.key \
         &
 
+    # listen 9081 for http2 with plaintext
+    echo '
+apisix:
+    node_listen:
+        - port: 9080
+          enable_http2: false
+        - port: 9081
+          enable_http2: true
+    ' > conf/config.yaml
+
     ./bin/apisix help
     ./bin/apisix init
     ./bin/apisix init_etcd
@@ -131,7 +141,7 @@ script() {
     sleep 1
     cat logs/error.log
 
-    sh ./t/grpc-proxy-test.sh
+    ./t/grpc-proxy-test.sh
     sleep 1
 
     ./bin/apisix stop
